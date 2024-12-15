@@ -1,0 +1,33 @@
+apiVersion: apps/v2
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongo
+spec:
+  replicas: 1 # mongo is a stateful app, so more than one we would have to change kind to 'StatefulSet'
+  selector:
+    matchLabels: # this helps kubernetes know what pods below to this Deployment config
+      app: mongo
+  template: # blueprint for pods - configuration for pods
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:5.0 # create Pods with "mongo:5.0" image
+        ports:
+        - containerPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  selector: # select pods to forward the request to
+    app: mongo # match deployment pod label
+  ports:
+    - protocol: TCP
+      port: 27017 # service is listening to
+      targetPort: 27017 # Pod is listening to
