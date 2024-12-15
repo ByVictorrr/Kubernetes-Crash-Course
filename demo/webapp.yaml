@@ -1,4 +1,4 @@
-apiVersion: apps/v2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webapp-deployment
@@ -41,9 +41,11 @@ kind: Service
 metadata:
   name: webapp-service
 spec:
+  type: NodePort # external service type
   selector: # select pods to forward the request to
     app: webapp # match deployment pod label
   ports:
     - protocol: TCP
       port: 3000 # service is listening to
       targetPort: 3000 # Pod is listening to
+      nodePort: 30100
