@@ -19,6 +19,22 @@ spec:
         image: nanajanashia/k8s-demo-app:v1.0 # simple nodejs application that starts on port 3000
         ports:
         - containerPort: 3000
+        env:
+        - name: USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret # the config file name
+              key: mongo-user
+        - name: USER_PWD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret # the config file name
+              key: mongo-password
+        - name: DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config # the config file name
+              key: mongo-url
 ---
 apiVersion: v1
 kind: Service

@@ -19,6 +19,19 @@ spec:
         image: mongo:5.0 # create Pods with "mongo:5.0" image
         ports:
         - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret # the config file name
+              key: mongo-user
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret # the config file name
+              key: mongo-password
+
+
 ---
 apiVersion: v1
 kind: Service
