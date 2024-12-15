@@ -189,7 +189,7 @@ $ kubectl get pod
 NAME                                 READY   STATUS    RESTARTS   AGE
 mongo-deployment-77b4cbd6b-9flsx     1/1     Running   0          16m
 webapp-deployment-655ff6696b-4tvzl   1/1     Running   0          14m
-kubectl logs webapp-deployment-655ff6696b-4tvzl 
+$ kubectl logs webapp-deployment-655ff6696b-4tvzl 
 app listening on port 3000!
 
 
@@ -202,5 +202,22 @@ NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 kubernetes       ClusterIP   10.96.0.1        <none>        443/TCP          23h
 mongo-service    ClusterIP   10.100.187.140   <none>        27017/TCP        19m
 webapp-service   NodePort    10.102.99.254    <none>        3000:30100/TCP   16m
+
+```
+
+* How do we access the external service `webapp-service` NodePort:
+  * NodePort Service is accessible on each Worker Node's IP Address
+  * In this case for `minikube we only have 1 node`
+
+```shell
+$ minikube ip
+192.168.49.2
+$ kubectl get node
+NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   32h   v1.31.0
+$ kubectl get node -o wide
+NAME       STATUS   ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION                       CONTAINER-RUNTIME
+minikube   Ready    control-plane   32h   v1.31.0   192.168.49.2   <none>        Ubuntu 22.04.4 LTS   5.15.150.1-microsoft-standard-WSL2   docker://27.2.0
+
 
 ```
